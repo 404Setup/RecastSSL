@@ -17,14 +17,26 @@ pub extern "system" fn Java_com_velocitypowered_natives_encryption_OpenSslCipher
     encrypt: jboolean,
 ) -> jlong {
     // Get the key bytes
-    let key_len = env.get_array_length(&key).unwrap();
+    let key_len = match env.get_array_length(&key) {
+        Ok(len) => len,
+        Err(_) => {
+            throw_exception(&mut env, "java/lang/RuntimeException", "Failed to get array length");
+            return 0;
+        }
+    };
     if key_len != 16 {
         throw_exception(&mut env, "java/lang/IllegalArgumentException", "cipher key not 16 bytes");
         return 0;
     }
 
     // Convert the Java byte array to a Rust Vec<u8>
-    let key_bytes = env.convert_byte_array(&key).unwrap();
+    let key_bytes = match env.convert_byte_array(&key) {
+        Ok(bytes) => bytes,
+        Err(_) => {
+            throw_exception(&mut env, "java/lang/RuntimeException", "Failed to convert byte array");
+            return 0;
+        }
+    };
 
     // Create the crypter
     let mode = if encrypt != 0 { Mode::Encrypt } else { Mode::Decrypt };
