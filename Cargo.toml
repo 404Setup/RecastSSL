@@ -1,0 +1,17 @@
+[package]
+name = "recastssl"
+authors = ["404"]
+version = "2.0.0"
+edition = "2024"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = true
+
+[dependencies]
+jni = "0.21.1"
+openssl = "0.10.73"
+
+[lib]
+crate-type = ["cdylib"]
