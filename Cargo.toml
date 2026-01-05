@@ -8,10 +8,14 @@ edition = "2024"
 opt-level = 3
 codegen-units = 1
 lto = true
+panic = "abort"
+
+[profile.release.package."*"]
+opt-level = 3
 
 [dependencies]
 jni = "0.21.1"
-openssl = "0.10.73"
+openssl = "0.10.75"
 
 [lib]
 crate-type = ["cdylib"]
