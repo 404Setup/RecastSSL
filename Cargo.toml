@@ -7,11 +7,8 @@ edition = "2024"
 [profile.release]
 opt-level = 3
 codegen-units = 1
-lto = true
+lto = "fat"
 panic = "abort"
-
-[profile.release.package."*"]
-opt-level = 3
 
 [dependencies]
 jni = "0.21.1"
